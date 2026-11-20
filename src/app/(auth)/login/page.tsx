@@ -1,13 +1,11 @@
-export default function LoginPage() {
-  return (
-    <section className="px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold">
-        Login
-      </h1>
+import type { Metadata } from "next";
+import { LoginForm } from "@/components/auth/login-form";
 
-      <p className="mt-4 text-muted-foreground">
-        Login functionality is coming in the authentication step.
-      </p>
-    </section>
-  );
+export const metadata: Metadata = {
+  title: "Login | GearRento",
+  description: "Sign in to your GearRento account.",
+};
+
+export default function LoginPage() {
+  return <LoginForm />;
 }

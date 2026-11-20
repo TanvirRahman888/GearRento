@@ -1,13 +1,11 @@
-export default function RegisterPage() {
-  return (
-    <section className="px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold">
-        Create Account
-      </h1>
+import type { Metadata } from "next";
+import { RegisterForm } from "@/components/auth/register-form";
 
-      <p className="mt-4 text-muted-foreground">
-        User registration will be implemented soon.
-      </p>
-    </section>
-  );
+export const metadata: Metadata = {
+  title: "Register | GearRento",
+  description: "Create your GearRento account.",
+};
+
+export default function RegisterPage() {
+  return <RegisterForm />;
 }

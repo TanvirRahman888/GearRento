@@ -110,7 +110,7 @@ export function Navbar() {
           ${
             showNavbar
               ? "translate-y-0"
-              : "-translate-y-[160%]"
+              : "translate-y-[-160%]"
           }
         `}
       >
@@ -136,7 +136,7 @@ export function Navbar() {
               flex h-14 items-center
               justify-between gap-2
               px-3 sm:px-4
-              lg:h-[60px] lg:px-5
+              lg:h-15 lg:px-5
             "
           >
             {/* Logo */}
@@ -152,9 +152,9 @@ export function Navbar() {
                 height={60}
                 priority
                 className="
-                  h-10 w-[142px] object-contain
-                  sm:w-[155px]
-                  lg:w-[165px]
+                  h-10 w-35.5 object-contain
+                  sm:w-38.75
+                  lg:w-41.25
                 "
               />
             </Link>
@@ -320,7 +320,7 @@ export function Navbar() {
 
       {/* Space for Fixed Navbar */}
       <div
-        className="h-[74px] lg:h-[78px]"
+        className="h-18.5 lg:h-19.5"
         aria-hidden="true"
       />
     </>

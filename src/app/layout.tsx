@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { Navbar } from "@/components/shared/navbar";
-import { Footer } from "@/components/shared/footer";
+
 
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -36,14 +36,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            <Navbar />
-
-            <main className="flex-1">
-              {children}
-            </main>
-
-            <Footer />
+            
+            <main className="flex-1">{children}</main>
           </div>
+
+          <Toaster position="top-right" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>

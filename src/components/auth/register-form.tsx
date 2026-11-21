@@ -30,7 +30,6 @@ type FormErrors = {
   photoUrl?: string;
   password?: string;
   confirmPassword?: string;
-  role?: Role;
 };
 
 const inputClass =
@@ -74,47 +73,54 @@ export function RegisterForm({ returnTo = "/" }: RegisterFormProps) {
   const router = useRouter();
 
   // Form submission
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setIsLoading(true);
+
+    // Prevent duplicate submissions
+    if (isLoading) return;
 
     const formData = new FormData(event.currentTarget);
 
     const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim();
+
+    const email = String(formData.get("email") || "")
+      .trim()
+      .toLowerCase();
+
     const photoUrl = String(formData.get("photoUrl") || "").trim();
 
     const newErrors: FormErrors = {};
 
+    // 1. Name validation
     if (name.length < 2) {
       newErrors.name = "Enter at least 2 characters.";
-      setIsLoading(false);
     }
 
+    // 2. Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
       newErrors.email = "Enter a valid email address.";
-      setIsLoading(false);
     }
 
+    // 3. Profile photo URL validation
     try {
       const url = new URL(photoUrl);
 
       if (!["http:", "https:"].includes(url.protocol)) {
         newErrors.photoUrl = "Enter a valid image URL.";
-        setIsLoading(false);
       }
     } catch {
       newErrors.photoUrl = "Enter a valid image URL.";
-      setIsLoading(false);
     }
 
+    // 4. Password validation
     if (!passwordValid) {
       newErrors.password = "Please meet all password requirements.";
-      setIsLoading(false);
     }
 
+    // 5. Confirm password validation
     if (!confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password.";
     } else if (password !== confirmPassword) {
@@ -123,26 +129,37 @@ export function RegisterForm({ returnTo = "/" }: RegisterFormProps) {
 
     setErrors(newErrors);
 
+    // Stop if validation fails
     if (Object.keys(newErrors).length > 0) {
       toast.error("Please correct the form errors.");
       return;
     }
 
+    // 6. Start loading after validation
+    setIsLoading(true);
+
     try {
+      // 7. Create user with Better Auth
       const { data, error } = await signUp.email({
         name,
         email,
         password,
         image: photoUrl,
-        role,
+
+        // Public registration choice
+        accountType: role,
+
+        // Previous page
         callbackURL: returnTo,
       });
 
+      // 8. Handle registration error
       if (error) {
-        toast.error(error.message || "Registration failed");
+        toast.error(error.message || "Registration failed.");
         return;
       }
 
+      // 9. Handle successful registration
       if (data?.user) {
         toast.success(`Welcome to GearRento, ${name}!`);
 
@@ -151,8 +168,10 @@ export function RegisterForm({ returnTo = "/" }: RegisterFormProps) {
       }
     } catch (error) {
       console.error("Registration failed:", error);
+
       toast.error("Something went wrong. Please try again.");
     } finally {
+      // 10. Always stop loading
       setIsLoading(false);
     }
   }

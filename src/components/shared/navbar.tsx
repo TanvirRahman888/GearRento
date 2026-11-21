@@ -87,7 +87,12 @@ export function Navbar() {
   const profileRef = useRef<HTMLDivElement>(null);
 
   // User role
-  const roleLabel = user?.role === "owner" ? "Product Owner" : "Customer";
+  const roleLabel =
+    user?.role === "admin"
+      ? "Administrator"
+      : user?.role === "owner"
+        ? "Product Owner"
+        : "Customer";
 
   // =========================================
   // 1. Navbar scroll behavior

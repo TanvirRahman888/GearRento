@@ -106,12 +106,8 @@ export const auth = betterAuth({
         crv: "Ed25519",
       },
     },
-
     jwt: {
-      issuer: process.env.BETTER_AUTH_URL,
-      audience: process.env.BETTER_AUTH_URL,
       expirationTime: "10m",
-
       definePayload: ({ user }) => ({
         role: user.role ?? "customer",
       }),

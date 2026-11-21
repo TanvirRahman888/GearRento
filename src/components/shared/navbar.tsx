@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   LogOut,
   Loader2,
+  Pencil,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -516,6 +517,14 @@ export function Navbar() {
                       >
                         <LayoutDashboard size={18} />
                         Dashboard
+                      </Link>
+                      <Link
+                        href="/dashboard/profile"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-colors hover:bg-accent"
+                      >
+                        <Pencil size={18} />
+                        Edit Profile
                       </Link>
 
                       <div className="my-1 border-t border-border" />

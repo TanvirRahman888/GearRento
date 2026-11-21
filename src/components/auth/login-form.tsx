@@ -1,8 +1,9 @@
-
 "use client";
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "@/lib/auth-client";
 
 import {
   LogIn,
@@ -13,6 +14,7 @@ import {
   Search,
   CalendarCheck,
   PackageCheck,
+  Loader2,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -20,18 +22,32 @@ import { toast } from "sonner";
 const inputClass =
   "w-full rounded-xl border border-border bg-card py-3 pl-11 pr-4 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/15";
 
-export function LoginForm() {
+type LoginFormProps = {
+  returnTo?: string;
+};
+
+export function LoginForm({ returnTo = "/" }: LoginFormProps) {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    // Prevent repeated submissions
+    if (isLoading) return;
 
     const formData = new FormData(event.currentTarget);
 
-    const email = String(formData.get("email") || "").trim();
+    const email = String(formData.get("email") || "")
+      .trim()
+      .toLowerCase();
+
     const password = String(formData.get("password") || "");
 
+    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -40,31 +56,53 @@ export function LoginForm() {
       return;
     }
 
+    // Password validation
     if (!password) {
       setError("Please enter your password.");
       toast.error("Password is required.");
       return;
     }
 
+    // Clear previous errors
     setError("");
+    setIsLoading(true);
 
-    // Login API will be implemented later.
-    console.log("GearRento Login Form:", {
-      email,
-      password: "[hidden]",
-    });
+    try {
+      // Sign in using Better Auth
+      const { data, error } = await signIn.email({
+        email,
+        password,
+        rememberMe: true,
+      });
 
-    toast.info("Login form validated!", {
-      description: "Authentication will be connected later.",
-    });
+      // Login failed
+      if (error) {
+        setError("Invalid email or password.");
+        toast.error("Invalid email or password.");
+        return;
+      }
+
+      // Login successful
+      if (data?.user) {
+        toast.success(`Welcome back, ${data.user.name}!`);
+
+        router.replace(returnTo);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <div className="w-full rounded-[28px] border border-border bg-card p-5 shadow-xl shadow-black/5 sm:p-8 lg:p-10">
-
       {/* Page Heading */}
       <div className="mb-9 flex flex-col items-center text-center">
-
         <div className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-cta text-cta-foreground">
           <LogIn size={27} />
         </div>
@@ -76,38 +114,30 @@ export function LoginForm() {
         <p className="mt-2 text-sm text-muted-foreground">
           Sign in to manage your rentals and account
         </p>
-
       </div>
 
       {/* Two Column Layout */}
       <div className="grid items-stretch gap-5 lg:grid-cols-2">
-
         {/* =============================
             LEFT INFORMATION PANEL
         ============================= */}
 
         <div className="hidden flex-col rounded-2xl bg-muted p-7 lg:flex">
-
-          <h2 className="text-lg font-semibold">
-            Rent Smarter. Build Bigger.
-          </h2>
+          <h2 className="text-lg font-semibold">Rent Smarter. Build Bigger.</h2>
 
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Your next rental is just a few clicks away.
-            Access your account to continue where you left off.
+            Your next rental is just a few clicks away. Access your account to
+            continue where you left off.
           </p>
 
           <div className="mt-8 space-y-5">
-
             <div className="flex items-start gap-4">
               <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
                 <Search size={21} />
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold">
-                  Explore Equipment
-                </h3>
+                <h3 className="text-sm font-semibold">Explore Equipment</h3>
 
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
                   Discover equipment that suits your needs.
@@ -121,9 +151,7 @@ export function LoginForm() {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold">
-                  Manage Your Bookings
-                </h3>
+                <h3 className="text-sm font-semibold">Manage Your Bookings</h3>
 
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
                   Keep track of your rental dates and bookings.
@@ -137,16 +165,13 @@ export function LoginForm() {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold">
-                  Manage Your Equipment
-                </h3>
+                <h3 className="text-sm font-semibold">Manage Your Equipment</h3>
 
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
                   Access equipment listings when you have owner permissions.
                 </p>
               </div>
             </div>
-
           </div>
 
           {/* Bottom Note */}
@@ -161,7 +186,6 @@ export function LoginForm() {
               </p>
             </div>
           </div>
-
         </div>
 
         {/* =============================
@@ -169,21 +193,13 @@ export function LoginForm() {
         ============================= */}
 
         <div className="flex flex-col justify-center rounded-2xl bg-muted p-5 sm:p-7">
-
-          <h2 className="text-lg font-semibold">
-            Sign In to Your Account
-          </h2>
+          <h2 className="text-lg font-semibold">Sign In to Your Account</h2>
 
           <p className="mt-2 text-sm text-muted-foreground">
             Enter your credentials to continue.
           </p>
 
-          <form
-            onSubmit={handleSubmit}
-            noValidate
-            className="mt-7 space-y-5"
-          >
-
+          <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-5">
             {/* Email */}
             <div>
               <label
@@ -238,44 +254,43 @@ export function LoginForm() {
 
                 <button
                   type="button"
-                  aria-label={
-                    showPassword
-                      ? "Hide password"
-                      : "Show password"
-                  }
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary"
                 >
-                  {showPassword ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
             {/* Validation Error */}
             {error && (
-              <p
-                role="alert"
-                className="text-sm text-destructive"
-              >
+              <p role="alert" className="text-sm text-destructive">
                 {error}
               </p>
             )}
 
             {/* Submit */}
+
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-cta px-5 py-3 font-semibold text-cta-foreground transition-colors hover:bg-cta/90"
+              disabled={isLoading}
+              aria-busy={isLoading}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-cta px-5 py-3 font-semibold text-cta-foreground transition-all duration-200 hover:bg-cta/90 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Sign In
-              <LogIn size={18} />
+              {isLoading ? (
+                <>
+                  <Loader2 className="size-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <LogIn size={18} />
+                </>
+              )}
             </button>
-
           </form>
-
         </div>
       </div>
 
@@ -283,9 +298,7 @@ export function LoginForm() {
       <div className="mx-auto my-7 flex max-w-xl items-center gap-4">
         <div className="h-px flex-1 bg-border" />
 
-        <span className="text-xs text-muted-foreground">
-          OR CONTINUE WITH
-        </span>
+        <span className="text-xs text-muted-foreground">OR CONTINUE WITH</span>
 
         <div className="h-px flex-1 bg-border" />
       </div>
@@ -295,16 +308,11 @@ export function LoginForm() {
         <button
           type="button"
           onClick={() =>
-            toast.info(
-              "Google Sign In will be implemented later."
-            )
+            toast.info("Google Sign In will be implemented later.")
           }
           className="flex w-full items-center justify-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium transition-colors hover:bg-accent"
         >
-          <span className="text-lg font-bold text-[#4285F4]">
-            G
-          </span>
-
+          <span className="text-lg font-bold text-[#4285F4]">G</span>
           Continue with Google
         </button>
       </div>
@@ -313,13 +321,12 @@ export function LoginForm() {
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link
-          href="/register"
+          href={`/register?next=${encodeURIComponent(returnTo)}`}
           className="font-semibold text-primary hover:underline"
         >
           Create Account
         </Link>
       </p>
-
     </div>
   );
 }

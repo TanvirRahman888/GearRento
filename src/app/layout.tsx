@@ -40,7 +40,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
           </div>
 
-          <Toaster position="top-right" richColors closeButton />
+          <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>

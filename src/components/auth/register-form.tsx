@@ -15,10 +15,12 @@ import {
   KeyRound,
   ImageIcon,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
 
 import { toast } from "sonner";
 import { signUp } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 type Role = "customer" | "owner";
 
@@ -28,12 +30,17 @@ type FormErrors = {
   photoUrl?: string;
   password?: string;
   confirmPassword?: string;
+  role?: Role;
 };
 
 const inputClass =
   "w-full rounded-xl border border-border bg-card py-3 pl-11 pr-4 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/15";
 
-export function RegisterForm() {
+type RegisterFormProps = {
+  returnTo?: string;
+};
+
+export function RegisterForm({ returnTo = "/" }: RegisterFormProps) {
   const [role, setRole] = useState<Role>("customer");
 
   const [password, setPassword] = useState("");
@@ -41,6 +48,8 @@ export function RegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -62,9 +71,12 @@ export function RegisterForm() {
 
   const passwordValid = missingRules.length === 0;
 
+  const router = useRouter();
+
   // Form submission
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
 
@@ -76,12 +88,14 @@ export function RegisterForm() {
 
     if (name.length < 2) {
       newErrors.name = "Enter at least 2 characters.";
+      setIsLoading(false);
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
       newErrors.email = "Enter a valid email address.";
+      setIsLoading(false);
     }
 
     try {
@@ -89,13 +103,16 @@ export function RegisterForm() {
 
       if (!["http:", "https:"].includes(url.protocol)) {
         newErrors.photoUrl = "Enter a valid image URL.";
+        setIsLoading(false);
       }
     } catch {
       newErrors.photoUrl = "Enter a valid image URL.";
+      setIsLoading(false);
     }
 
     if (!passwordValid) {
       newErrors.password = "Please meet all password requirements.";
+      setIsLoading(false);
     }
 
     if (!confirmPassword) {
@@ -111,25 +128,33 @@ export function RegisterForm() {
       return;
     }
 
-    const { data, error } = await signUp.email({
-      name: name,
-      email: email,
-      password: password,
-      image: photoUrl,
-      callbackURL: "/",
-    });
-    console.log({ data, error });
-    if (error) {
-        return toast.error(error?.message ?? "Something Wrong, Try Again.")
-    }
+    try {
+      const { data, error } = await signUp.email({
+        name,
+        email,
+        password,
+        image: photoUrl,
+        role,
+        callbackURL: returnTo,
+      });
 
-    if (data.token) {
-        toast.success(`Welcome ${name}`)
-    }
+      if (error) {
+        toast.error(error.message || "Registration failed");
+        return;
+      }
 
-    // toast.info("Form validated successfully!", {
-    //   description: "Registration will be connected later.",
-    // });
+      if (data?.user) {
+        toast.success(`Welcome to GearRento, ${name}!`);
+
+        router.replace(returnTo);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -491,10 +516,21 @@ export function RegisterForm() {
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-cta px-5 py-3 font-semibold text-cta-foreground transition-colors hover:bg-cta/90"
+                disabled={isLoading}
+                aria-busy={isLoading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-cta px-5 py-3 font-semibold text-cta-foreground transition-all duration-200 hover:bg-cta/90 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Create Account
-                <ArrowRight size={18} />
+                {isLoading ? (
+                  <>
+                    <Loader2 className="size-5 animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight size={18} />
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -526,7 +562,7 @@ export function RegisterForm() {
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link
-          href="/login"
+          href={`/login?next=${encodeURIComponent(returnTo)}`}
           className="font-semibold text-primary hover:underline"
         >
           Sign In

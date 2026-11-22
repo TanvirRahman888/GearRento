@@ -56,8 +56,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
       },
       {
         title: "All Rentals",
-        description: "Monitor rental bookings.",
+        description: "Monitor customer bookings and payments.",
         icon: ClipboardList,
+        href: "/dashboard/all-rentals",
       },
       {
         title: "Platform Analytics",

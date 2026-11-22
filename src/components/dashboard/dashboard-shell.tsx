@@ -16,8 +16,7 @@ type DashboardShellProps = {
   role: DashboardRole;
   title: string;
   description: string;
-  activePage: "overview" | "profile"| "add-equipment"
-  | "my-equipment";
+  activePage: "overview" | "profile"| "add-equipment"| "my-equipment"| "equipment-approvals";
   children: ReactNode;
 };
 

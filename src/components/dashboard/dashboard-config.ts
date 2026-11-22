@@ -70,8 +70,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
       },
       {
         title: "Platform Settings",
-        description: "Manage platform preferences.",
+        description: "Manage marketplace configuration.",
         icon: Settings,
+        href: "/dashboard/platform-settings",
       },
     ],
   },
@@ -102,6 +103,7 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
       {
         title: "Availability",
         description: "Manage equipment rental dates.",
+        href: "/dashboard/availability",
         icon: CalendarDays,
       },
       {

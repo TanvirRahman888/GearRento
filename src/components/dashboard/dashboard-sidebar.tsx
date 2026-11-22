@@ -25,7 +25,7 @@ type DashboardSidebarProps = {
     image?: string | null;
   };
   role: DashboardRole;
-  activePage: "overview" | "profile" | "add-equipment" | "my-equipment" | "equipment-approvals"| "my-bookings";
+  activePage: "overview" | "profile" | "add-equipment" | "my-equipment" | "equipment-approvals"| "my-bookings"  | "rental-requests";
 };
 
 // Shared navigation links

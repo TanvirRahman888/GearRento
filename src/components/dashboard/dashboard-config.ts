@@ -91,8 +91,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
       },
       {
         title: "Rental Requests",
-        description: "Review booking requests.",
+        description: "Manage paid rentals and customer bookings.",
         icon: ClipboardList,
+        href: "/dashboard/rental-requests",
       },
       {
         title: "Availability",

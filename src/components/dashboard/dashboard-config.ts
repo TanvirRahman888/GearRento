@@ -7,7 +7,6 @@ import {
   ChartNoAxesCombined,
   CalendarDays,
   Wallet,
-  ShoppingBag,
   Heart,
   CreditCard,
   Settings,
@@ -120,8 +119,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
     features: [
       {
         title: "My Bookings",
-        description: "View active and upcoming bookings.",
-        icon: ShoppingBag,
+        description: "Track your equipment bookings and payments.",
+        icon: CalendarDays,
+        href: "/dashboard/my-bookings",
       },
       {
         title: "Rental History",

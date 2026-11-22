@@ -40,8 +40,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
     features: [
       {
         title: "Manage Users",
-        description: "Manage customers and product owners.",
+        description: "View users and manage account roles.",
         icon: Users,
+        href: "/dashboard/manage-users",
       },
       {
         title: "Equipment Approvals",
@@ -51,8 +52,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
       },
       {
         title: "All Equipment",
-        description: "Manage marketplace equipment.",
+        description: "View and inspect every equipment listing.",
         icon: Package,
+        href: "/dashboard/all-equipment",
       },
       {
         title: "All Rentals",

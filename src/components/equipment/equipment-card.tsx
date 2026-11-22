@@ -3,13 +3,19 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   ImageIcon,
   MapPin,
   Package,
   Tag,
+  ArrowUpRight,
 } from "lucide-react";
+
+// ======================================
+// Equipment Type
+// ======================================
 
 export type PublicEquipment = {
   _id: string;
@@ -27,6 +33,10 @@ export type PublicEquipment = {
 type EquipmentCardProps = {
   equipment: PublicEquipment;
 };
+
+// ======================================
+// Equipment Image with Fallback
+// ======================================
 
 function EquipmentImage({
   imageUrl,
@@ -59,10 +69,15 @@ function EquipmentImage({
   );
 }
 
+// ======================================
+// Equipment Card
+// ======================================
+
 export function EquipmentCard({
   equipment,
 }: EquipmentCardProps) {
   const {
+    _id,
     name,
     categories,
     condition,
@@ -72,10 +87,17 @@ export function EquipmentCard({
     availableQuantity,
   } = equipment;
 
+  // Equipment details URL
+  const detailsUrl = `/equipment/${_id}`;
+
+  // Format condition label
   const conditionLabel = condition
     .replaceAll("-", " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+    .replace(/\b\w/g, (letter) =>
+      letter.toUpperCase()
+    );
 
+  // Format rental divisions
   const divisionLabel =
     divisions.length === 8
       ? "All Bangladesh Divisions"
@@ -84,18 +106,48 @@ export function EquipmentCard({
         : `${divisions.slice(0, 2).join(", ")} +${divisions.length - 2} more`;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md">
-      {/* Cover Image */}
-      <EquipmentImage
-        key={imageUrls[0] ?? ""}
-        imageUrl={imageUrls[0]}
-        name={name}
-      />
+    <article
+      className="
+        group flex h-full flex-col
+        overflow-hidden rounded-2xl
+        border border-border bg-card
+        shadow-sm transition-all duration-300
+        hover:-translate-y-1
+        hover:border-primary/30
+        hover:shadow-lg
+      "
+    >
+      {/* ==================================
+          CLICKABLE COVER IMAGE
+      ================================== */}
+
+      <Link
+        href={detailsUrl}
+        aria-label={`View details for ${name}`}
+        className="block overflow-hidden"
+      >
+        <EquipmentImage
+          key={imageUrls?.[0] ?? ""}
+          imageUrl={imageUrls?.[0]}
+          name={name}
+        />
+      </Link>
+
+      {/* ==================================
+          CARD CONTENT
+      ================================== */}
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
+
         {/* Condition and Availability */}
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+          <span
+            className="
+              rounded-full bg-secondary
+              px-3 py-1 text-xs font-medium
+              text-secondary-foreground
+            "
+          >
             {conditionLabel}
           </span>
 
@@ -112,19 +164,41 @@ export function EquipmentCard({
           </span>
         </div>
 
-        {/* Equipment Name */}
+        {/* ==================================
+            CLICKABLE EQUIPMENT NAME
+        ================================== */}
+
         <h3 className="line-clamp-2 text-base font-bold text-foreground">
-          {name}
+          <Link
+            href={detailsUrl}
+            className="
+              transition-colors duration-200
+              hover:text-primary
+              focus-visible:text-primary
+            "
+          >
+            {name}
+          </Link>
         </h3>
 
-        {/* Categories */}
+        {/* ==================================
+            CATEGORIES
+        ================================== */}
+
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          <Tag size={14} className="text-primary" />
+          <Tag
+            size={14}
+            className="shrink-0 text-primary"
+          />
 
           {categories.slice(0, 2).map((category) => (
             <span
               key={category}
-              className="rounded-md bg-muted px-2 py-1 text-xs text-foreground/80"
+              className="
+                rounded-md bg-muted
+                px-2 py-1 text-xs
+                text-foreground/80
+              "
             >
               {category}
             </span>
@@ -132,36 +206,72 @@ export function EquipmentCard({
 
           {categories.length > 2 && (
             <span className="text-xs text-muted-foreground">
-              +{categories.length - 2}
+              +{categories.length - 2} more
             </span>
           )}
         </div>
 
-        {/* Rental Divisions */}
-        <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-          <MapPin size={15} className="shrink-0 text-primary" />
+        {/* ==================================
+            RENTAL DIVISIONS
+        ================================== */}
 
-          <span>{divisionLabel}</span>
+        <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
+          <MapPin
+            size={15}
+            className="shrink-0 text-primary"
+          />
+
+          <span className="line-clamp-2">
+            {divisionLabel}
+          </span>
         </div>
 
-        {/* Price */}
-        <div className="mt-auto flex items-end justify-between gap-3 border-t border-border pt-4">
-          <div>
-            <p className="text-xs text-muted-foreground">
-              Rental price
-            </p>
+        {/* ==================================
+            DAILY RENTAL PRICE
+        ================================== */}
 
-            <p className="mt-1 text-xl font-bold text-primary">
-              ৳{dailyPrice.toLocaleString("en-BD")}
-              <span className="ml-1 text-xs font-normal text-muted-foreground">
-                /day
-              </span>
-            </p>
+        <div className="mt-auto pt-4">
+          <div className="flex items-end justify-between gap-3 border-t border-border pt-4">
+            <div>
+              <p className="text-xs text-muted-foreground">
+                Rental Price
+              </p>
+
+              <p className="mt-1 text-xl font-bold text-primary">
+                ৳{dailyPrice.toLocaleString("en-BD")}
+
+                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                  /day
+                </span>
+              </p>
+            </div>
+
+            <div className="flex size-10 items-center justify-center rounded-xl bg-secondary text-primary">
+              <Package size={19} />
+            </div>
           </div>
 
-          <div className="flex size-10 items-center justify-center rounded-xl bg-secondary text-primary">
-            <Package size={19} />
-          </div>
+          {/* ==================================
+              VIEW DETAILS BUTTON
+          ================================== */}
+
+          <Link
+            href={detailsUrl}
+            className="
+              mt-4 flex w-full items-center
+              justify-center gap-2
+              rounded-xl bg-cta
+              px-4 py-2.5
+              text-sm font-semibold
+              text-cta-foreground
+              transition-all duration-200
+              hover:bg-cta/90
+              hover:shadow-md
+            "
+          >
+            View Details
+            <ArrowUpRight size={17} />
+          </Link>
         </div>
       </div>
     </article>

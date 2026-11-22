@@ -4,7 +4,7 @@ import {
   Package,
   PackagePlus,
   ClipboardList,
-  ChartNoAxesCombined,
+  BarChart3,
   CalendarDays,
   Wallet,
   Heart,
@@ -61,9 +61,10 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
         href: "/dashboard/all-rentals",
       },
       {
-        title: "Platform Analytics",
-        description: "Review marketplace performance.",
-        icon: ChartNoAxesCombined,
+        title: "Analytics",
+        description: "View booking trends and rental performance.",
+        icon: BarChart3,
+        href: "/dashboard/analytics",
       },
       {
         title: "Platform Settings",

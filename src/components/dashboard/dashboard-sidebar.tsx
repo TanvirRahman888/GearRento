@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,10 +14,7 @@ import {
   UserRound,
 } from "lucide-react";
 
-import {
-  dashboardConfig,
-  type DashboardRole,
-} from "./dashboard-config";
+import { dashboardConfig, type DashboardRole } from "./dashboard-config";
 
 import { LogoutButton } from "./logout-button";
 
@@ -29,7 +25,7 @@ type DashboardSidebarProps = {
     image?: string | null;
   };
   role: DashboardRole;
-  activePage: "overview" | "profile";
+  activePage: "overview" | "profile" | "add-equipment" | "my-equipment";
 };
 
 // Shared navigation links
@@ -82,10 +78,7 @@ export function DashboardSidebar({
     document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener(
-        "keydown",
-        handleEscape
-      );
+      document.removeEventListener("keydown", handleEscape);
     };
   }, [mobileOpen]);
 
@@ -148,11 +141,7 @@ export function DashboardSidebar({
           ease-in-out
           lg:translate-x-0
           lg:shadow-none
-          ${
-            mobileOpen
-              ? "translate-x-0"
-              : "-translate-x-full"
-          }
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
         {/* =====================================
@@ -182,9 +171,7 @@ export function DashboardSidebar({
             </div>
 
             <div>
-              <p className="text-sm font-bold">
-                GearRento
-              </p>
+              <p className="text-sm font-bold">GearRento</p>
 
               <p className="text-[11px] text-muted-foreground">
                 Dashboard Workspace
@@ -212,7 +199,6 @@ export function DashboardSidebar({
 
         <div className="shrink-0 border-b border-border px-5 py-5">
           <div className="flex items-center gap-3">
-
             {/* Profile Photo */}
             <div
               className="
@@ -238,9 +224,7 @@ export function DashboardSidebar({
 
             {/* User Name and Email */}
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold">
-                {user.name}
-              </p>
+              <p className="truncate text-sm font-semibold">{user.name}</p>
 
               <p
                 className="
@@ -297,18 +281,13 @@ export function DashboardSidebar({
             <div className="space-y-1">
               {generalLinks.map((link) => {
                 const Icon = link.icon;
-
-                const isActive =
-                  link.page !== null &&
-                  activePage === link.page;
+                const isActive = link.page !== null && activePage === link.page;
 
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    aria-current={
-                      isActive ? "page" : undefined
-                    }
+                    aria-current={isActive ? "page" : undefined}
                     onClick={() => setMobileOpen(false)}
                     className={`
                       flex items-center gap-3
@@ -322,10 +301,7 @@ export function DashboardSidebar({
                       }
                     `}
                   >
-                    <Icon
-                      size={19}
-                      className="shrink-0"
-                    />
+                    <Icon size={19} className="shrink-0" />
 
                     <span>{link.label}</span>
                   </Link>
@@ -354,39 +330,53 @@ export function DashboardSidebar({
               {dashboard.features.map((feature) => {
                 const Icon = feature.icon;
 
+                const isActive = feature.href === `/dashboard/${activePage}`;
+
+                const content = (
+                  <>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <Icon size={18} className="shrink-0" />
+
+                      <span className="truncate">{feature.title}</span>
+                    </div>
+
+                    {!feature.href && (
+                      <span className="shrink-0 rounded-md bg-muted px-1.5 py-1 text-[10px] text-muted-foreground">
+                        Soon
+                      </span>
+                    )}
+                  </>
+                );
+
+                const classes =
+                  "flex items-center justify-between gap-2 rounded-xl px-3 py-3 text-sm transition-colors";
+
+                // Implemented features
+                if (feature.href) {
+                  return (
+                    <Link
+                      key={feature.title}
+                      href={feature.href}
+                      onClick={() => setMobileOpen(false)}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`${classes} ${
+                        isActive
+                          ? "bg-secondary font-semibold text-primary"
+                          : "text-foreground/80 hover:bg-accent hover:text-primary"
+                      }`}
+                    >
+                      {content}
+                    </Link>
+                  );
+                }
+
+                // Upcoming features
                 return (
                   <div
                     key={feature.title}
-                    className="
-                      flex items-center
-                      justify-between gap-2
-                      rounded-xl px-3 py-3
-                      text-sm
-                      text-foreground/70
-                    "
-                    title={`${feature.title} — Coming soon`}
+                    className={`${classes} text-muted-foreground`}
                   >
-                    <div className="flex min-w-0 items-center gap-3">
-                      <Icon
-                        size={18}
-                        className="shrink-0"
-                      />
-
-                      <span className="truncate">
-                        {feature.title}
-                      </span>
-                    </div>
-
-                    <span
-                      className="
-                        shrink-0 rounded-md
-                        bg-muted px-1.5 py-1
-                        text-[10px]
-                        text-muted-foreground
-                      "
-                    >
-                      Soon
-                    </span>
+                    {content}
                   </div>
                 );
               })}

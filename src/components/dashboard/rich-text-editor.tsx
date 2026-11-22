@@ -1,4 +1,3 @@
-
 "use client";
 
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -15,25 +14,27 @@ import {
 } from "lucide-react";
 
 type RichTextEditorProps = {
+  initialContent?: string;
   onChange: (html: string, text: string) => void;
 };
 
 export function RichTextEditor({
+  initialContent = "",
   onChange,
 }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "",
+
+    // Load existing description when editing
+    content: initialContent,
+
+    // Prevent Next.js hydration problems
     immediatelyRender: false,
 
     editorProps: {
       attributes: {
         class:
-          "min-h-[180px] px-4 py-3 text-sm leading-7 outline-none " +
-          "[&_h2]:my-3 [&_h2]:text-xl [&_h2]:font-bold " +
-          "[&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6 " +
-          "[&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 " +
-          "[&_p]:my-1",
+          "min-h-[180px] px-4 py-3 text-sm leading-7 outline-none [&_h2]:my-3 [&_h2]:text-xl [&_h2]:font-bold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-1",
       },
     },
 
@@ -58,8 +59,7 @@ export function RichTextEditor({
     {
       label: "Heading",
       icon: Heading2,
-      action: () =>
-        editor?.chain().focus().toggleHeading({ level: 2 }).run(),
+      action: () => editor?.chain().focus().toggleHeading({ level: 2 }).run(),
       active: editor?.isActive("heading", { level: 2 }),
     },
     {
@@ -102,9 +102,7 @@ export function RichTextEditor({
               aria-pressed={tool.active ?? false}
               onClick={tool.action}
               className={`flex size-9 items-center justify-center rounded-lg transition-colors hover:bg-accent disabled:opacity-50 ${
-                tool.active
-                  ? "bg-secondary text-primary"
-                  : "text-foreground"
+                tool.active ? "bg-secondary text-primary" : "text-foreground"
               }`}
             >
               <Icon size={17} />

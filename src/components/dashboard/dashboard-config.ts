@@ -1,4 +1,3 @@
-
 import {
   Users,
   ShieldCheck,
@@ -23,6 +22,7 @@ export type DashboardFeature = {
   title: string;
   description: string;
   icon: LucideIcon;
+  href?: string;
 };
 
 export type DashboardConfig = {
@@ -32,10 +32,7 @@ export type DashboardConfig = {
   features: DashboardFeature[];
 };
 
-export const dashboardConfig: Record<
-  DashboardRole,
-  DashboardConfig
-> = {
+export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
   admin: {
     label: "Administrator",
     title: "Admin Dashboard",
@@ -78,18 +75,19 @@ export const dashboardConfig: Record<
   owner: {
     label: "Product Owner",
     title: "Owner Dashboard",
-    description:
-      "Manage your equipment, rental requests, and earnings.",
+    description: "Manage your equipment, rental requests, and earnings.",
     features: [
       {
         title: "Add Equipment",
         description: "Create new equipment listings.",
         icon: PackagePlus,
+        href: "/dashboard/add-equipment",
       },
       {
         title: "My Equipment",
         description: "Manage your equipment listings.",
         icon: Package,
+        href: "/dashboard/my-equipment",
       },
       {
         title: "Rental Requests",
@@ -117,8 +115,7 @@ export const dashboardConfig: Record<
   customer: {
     label: "Customer",
     title: "Customer Dashboard",
-    description:
-      "Explore equipment and manage your rentals.",
+    description: "Explore equipment and manage your rentals.",
     features: [
       {
         title: "My Bookings",

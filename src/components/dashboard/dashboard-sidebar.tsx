@@ -25,7 +25,7 @@ type DashboardSidebarProps = {
     image?: string | null;
   };
   role: DashboardRole;
-  activePage: "overview" | "profile" | "add-equipment" | "my-equipment";
+  activePage: "overview" | "profile" | "add-equipment" | "my-equipment" | "equipment-approvals";
 };
 
 // Shared navigation links

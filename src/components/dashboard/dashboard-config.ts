@@ -48,6 +48,7 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
         title: "Equipment Approvals",
         description: "Review equipment listings.",
         icon: ShieldCheck,
+        href: "/dashboard/equipment-approvals",
       },
       {
         title: "All Equipment",

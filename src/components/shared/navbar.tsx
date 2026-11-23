@@ -27,7 +27,9 @@ import { getSafeRedirect } from "@/lib/safe-redirect";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "All Equipment", href: "/equipment" },
+  { label: "About Us", href: "/about" },
   { label: "How It Works", href: "/#how-it-works" },
+  { label: "Contact", href: "/contact" },
 ];
 
 type ProfileAvatarProps = {

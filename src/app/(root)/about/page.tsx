@@ -158,7 +158,7 @@ function ImageContentSection({
 
           <div className="absolute -inset-3 rounded-3xl bg-primary/5" />
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border shadow-xl shadow-black/10 dark:shadow-black/20">
+          <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-border shadow-xl shadow-black/10 dark:shadow-black/20">
             <Image
               src={image}
               alt={imageAlt}
@@ -220,7 +220,7 @@ export default function AboutPage() {
         aria-labelledby="about-heading"
         className="relative overflow-hidden"
       >
-        <div className="relative min-h-[460px] sm:min-h-[520px] lg:min-h-[580px]">
+        <div className="relative min-h-115 sm:min-h-130 lg:min-h-145">
 
           {/* Background Image */}
 
@@ -235,11 +235,11 @@ export default function AboutPage() {
 
           {/* Dark Overlay for readable text */}
 
-          <div className="absolute inset-0 bg-gradient-to-r from-[#061923]/95 via-[#061923]/75 to-[#061923]/25" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#061923]/95 via-[#061923]/75 to-[#061923]/25" />
 
           {/* Hero Content */}
 
-          <div className="relative mx-auto flex min-h-[460px] max-w-7xl items-center px-4 py-16 sm:min-h-[520px] sm:px-6 lg:min-h-[580px] lg:px-8">
+          <div className="relative mx-auto flex min-h-115 max-w-7xl items-center px-4 py-16 sm:min-h-130 sm:px-6 lg:min-h-145 lg:px-8">
 
             <div className="max-w-2xl">
 

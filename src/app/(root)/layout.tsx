@@ -1,4 +1,5 @@
-import { Footer } from "@/components/shared/footer";
+
+import Footer from "@/components/shared/footer";
 import { Navbar } from "@/components/shared/navbar";
 import { PlatformAnnouncement } from "@/components/shared/platform-announcement";
 import React from "react";

@@ -1,3 +1,4 @@
+import BecomeOwnerSection from '@/components/home/BecomeOwnerSection';
 import CategorySection from '@/components/home/CategorySection';
 import CustomerReviewsSection from '@/components/home/CustomerReviewsSection';
 import HeroSection from '@/components/home/HeroSection';
@@ -13,6 +14,9 @@ const HomePage = () => {
       <PopularEquipmentSection />
       <RecentlyAddedSection />
       <WhyChooseUsSection />
+      <BecomeOwnerSection
+        applyHref="/register"
+      />
       <CustomerReviewsSection />
     </div>
   );

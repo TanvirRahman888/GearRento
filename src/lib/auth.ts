@@ -3,37 +3,41 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 import { jwt } from "better-auth/plugins";
 
-// ======================================
-// MongoDB Connection
-// ======================================
+const MONGODB_URI = process.env.MONGODB_URI;
+const DB_NAME = process.env.DB_NAME || "GearRento";
 
-const client = new MongoClient(
-  `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-cny9clf-shard-00-00.ilfvfer.mongodb.net:27017,ac-cny9clf-shard-00-01.ilfvfer.mongodb.net:27017,ac-cny9clf-shard-00-02.ilfvfer.mongodb.net:27017/?ssl=true&replicaSet=atlas-r83rr3-shard-0&authSource=admin`,
-);
+const BETTER_AUTH_URL = process.env.BETTER_AUTH_URL;
 
-const db = client.db(process.env.DB_NAME || "GearRento");
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-// ======================================
-// Better Auth Configuration
-// ======================================
+if (!MONGODB_URI) {
+  throw new Error("Missing MONGODB_URI in environment variables.");
+}
+
+if (!BETTER_AUTH_URL) {
+  throw new Error("Missing BETTER_AUTH_URL in environment variables.");
+}
+
+if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+  throw new Error(
+    "Missing Google OAuth credentials. Check GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.",
+  );
+}
+
+const client = new MongoClient(MONGODB_URI);
+
+const db = client.db(DB_NAME);
 
 export const auth = betterAuth({
-  // Authentication server URL
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: BETTER_AUTH_URL,
 
-  // MongoDB Adapter
   database: mongodbAdapter(db, {
     client,
   }),
 
-  // ======================================
-  // User Fields and Role Security
-  // ======================================
-
   user: {
     additionalFields: {
-      // Actual authorization role
-      // Cannot be changed through user input.
       role: {
         type: ["customer", "owner", "admin"],
         required: false,
@@ -41,7 +45,6 @@ export const auth = betterAuth({
         defaultValue: "customer",
       },
 
-      // Public registration selection
       accountType: {
         type: ["customer", "owner"],
         required: false,
@@ -51,23 +54,23 @@ export const auth = betterAuth({
     },
   },
 
-  // ======================================
-  // Server-Controlled Role Assignment
-  // ======================================
-
   databaseHooks: {
     user: {
       create: {
         before: async (user) => {
-          const selectedType = (user as { accountType?: string }).accountType;
+          const selectedType = (
+            user as {
+              accountType?: string;
+            }
+          ).accountType;
+
+          const accountType = selectedType === "owner" ? "owner" : "customer";
 
           return {
             data: {
               ...user,
-
-              // Only Customer or Owner can
-              // register through the public form.
-              role: selectedType === "owner" ? "owner" : "customer",
+              accountType,
+              role: accountType,
             },
           };
         },
@@ -75,43 +78,35 @@ export const auth = betterAuth({
     },
   },
 
-  // ======================================
-  // Email and Password Authentication
-  // ======================================
-
   emailAndPassword: {
     enabled: true,
   },
 
-  // ======================================
-  // Social Authentication
-  // ======================================
-
   socialProviders: {
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    google: {
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+
+      prompt: "select_account",
     },
   },
 
-  // ======================================
-  // JWT Plugin for Express Backend
-  // ======================================
-
   plugins: [
-  jwt({
-    jwks: {
-      keyPairConfig: {
-        alg: "EdDSA",
-        crv: "Ed25519",
+    jwt({
+      jwks: {
+        keyPairConfig: {
+          alg: "EdDSA",
+          crv: "Ed25519",
+        },
       },
-    },
-    jwt: {
-      expirationTime: "10m",
-      definePayload: ({ user }) => ({
-        role: user.role ?? "customer",
-      }),
-    },
-  }),
-],
+
+      jwt: {
+        expirationTime: "10m",
+
+        definePayload: ({ user }) => ({
+          role: user.role ?? "customer",
+        }),
+      },
+    }),
+  ],
 });

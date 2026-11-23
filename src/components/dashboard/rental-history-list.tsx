@@ -550,7 +550,7 @@ export function RentalHistoryList() {
                 />
               </div>
 
-              <p className="mt-4 break-words text-2xl font-bold">
+              <p className="mt-4 wrap-break-word text-2xl font-bold">
                 {value}
               </p>
             </div>
@@ -954,7 +954,7 @@ export function RentalHistoryList() {
                           Rental Delivery Address
                         </p>
 
-                        <p className="mt-1 break-words">
+                        <p className="mt-1 wrap-break-word">
                           {booking.address ||
                             "—"}
                         </p>
@@ -997,7 +997,7 @@ export function RentalHistoryList() {
                             Your Notes
                           </p>
 
-                          <p className="mt-1 whitespace-pre-wrap break-words">
+                          <p className="mt-1 whitespace-pre-wrap wrap-break-word">
                             {booking.notes}
                           </p>
                         </div>

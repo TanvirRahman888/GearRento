@@ -950,7 +950,7 @@ export function OwnerAvailabilityCalendar() {
                           )}
                         </span>
 
-                        <span className="break-words text-[10px] font-medium leading-3 sm:text-xs">
+                        <span className="wrap-break-word text-[10px] font-medium leading-3 sm:text-xs">
                           {label}
                         </span>
 

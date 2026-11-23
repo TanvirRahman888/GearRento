@@ -25,5 +25,5 @@ export function proxy(request: NextRequest) {
 
 // Apply proxy to Dashboard and its nested pages
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/equipment/:id",],
 };

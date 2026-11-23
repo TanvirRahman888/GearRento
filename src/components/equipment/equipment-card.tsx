@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -11,6 +10,7 @@ import {
   Package,
   Tag,
   ArrowUpRight,
+  Star,
 } from "lucide-react";
 
 // ======================================
@@ -28,6 +28,8 @@ export type PublicEquipment = {
   quantity: number;
   availableQuantity: number;
   createdAt: string;
+  isFeatured?: boolean;
+  featureExpiresAt?: string | null;
 };
 
 type EquipmentCardProps = {
@@ -41,9 +43,11 @@ type EquipmentCardProps = {
 function EquipmentImage({
   imageUrl,
   name,
+  isFeatured = false,
 }: {
   imageUrl?: string;
   name: string;
+  isFeatured?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -60,10 +64,18 @@ function EquipmentImage({
           onError={() => setFailed(true)}
         />
       ) : (
-        <ImageIcon
-          size={42}
-          className="text-muted-foreground/40"
-        />
+        <ImageIcon size={42} className="text-muted-foreground/40" />
+      )}
+
+      {/* ==============================
+          FEATURED EQUIPMENT BADGE
+      ============================== */}
+
+      {isFeatured && (
+        <span className="pointer-events-none absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-xs font-bold text-amber-950 shadow-md">
+          <Star size={14} fill="currentColor" />
+          Featured
+        </span>
       )}
     </div>
   );
@@ -73,9 +85,7 @@ function EquipmentImage({
 // Equipment Card
 // ======================================
 
-export function EquipmentCard({
-  equipment,
-}: EquipmentCardProps) {
+export function EquipmentCard({ equipment }: EquipmentCardProps) {
   const {
     _id,
     name,
@@ -85,6 +95,7 @@ export function EquipmentCard({
     imageUrls,
     dailyPrice,
     availableQuantity,
+    isFeatured,
   } = equipment;
 
   // Equipment details URL
@@ -93,9 +104,7 @@ export function EquipmentCard({
   // Format condition label
   const conditionLabel = condition
     .replaceAll("-", " ")
-    .replace(/\b\w/g, (letter) =>
-      letter.toUpperCase()
-    );
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 
   // Format rental divisions
   const divisionLabel =
@@ -130,6 +139,7 @@ export function EquipmentCard({
           key={imageUrls?.[0] ?? ""}
           imageUrl={imageUrls?.[0]}
           name={name}
+          isFeatured={isFeatured}
         />
       </Link>
 
@@ -138,7 +148,6 @@ export function EquipmentCard({
       ================================== */}
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-
         {/* Condition and Availability */}
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <span
@@ -186,10 +195,7 @@ export function EquipmentCard({
         ================================== */}
 
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          <Tag
-            size={14}
-            className="shrink-0 text-primary"
-          />
+          <Tag size={14} className="shrink-0 text-primary" />
 
           {categories.slice(0, 2).map((category) => (
             <span
@@ -216,14 +222,9 @@ export function EquipmentCard({
         ================================== */}
 
         <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-          <MapPin
-            size={15}
-            className="shrink-0 text-primary"
-          />
+          <MapPin size={15} className="shrink-0 text-primary" />
 
-          <span className="line-clamp-2">
-            {divisionLabel}
-          </span>
+          <span className="line-clamp-2">{divisionLabel}</span>
         </div>
 
         {/* ==================================
@@ -233,13 +234,10 @@ export function EquipmentCard({
         <div className="mt-auto pt-4">
           <div className="flex items-end justify-between gap-3 border-t border-border pt-4">
             <div>
-              <p className="text-xs text-muted-foreground">
-                Rental Price
-              </p>
+              <p className="text-xs text-muted-foreground">Rental Price</p>
 
               <p className="mt-1 text-xl font-bold text-primary">
                 ৳{dailyPrice.toLocaleString("en-BD")}
-
                 <span className="ml-1 text-xs font-normal text-muted-foreground">
                   /day
                 </span>

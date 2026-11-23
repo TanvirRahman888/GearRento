@@ -1,4 +1,3 @@
-
 export const equipmentCategories = [
   "Photography",
   "Power Tools",
@@ -60,6 +59,8 @@ export type PublicEquipment = {
   quantity: number;
   availableQuantity: number;
   createdAt: string;
+  isFeatured?: boolean;
+  featureExpiresAt?: string | null;
 };
 
 export type EquipmentPagination = {
@@ -92,13 +93,12 @@ function getValue(value: string | string[] | undefined) {
 }
 
 export function parseEquipmentFilters(
-  params: EquipmentSearchParams
+  params: EquipmentSearchParams,
 ): EquipmentFilters {
   const requestedPage = Number(getValue(params.page) || 1);
 
   const page =
-    Number.isSafeInteger(requestedPage) &&
-    requestedPage >= 1
+    Number.isSafeInteger(requestedPage) && requestedPage >= 1
       ? Math.min(requestedPage, 100000)
       : 1;
 
@@ -120,7 +120,7 @@ export function parseEquipmentFilters(
 
 export function buildEquipmentQuery(
   filters: EquipmentFilters,
-  page = filters.page
+  page = filters.page,
 ) {
   const params = new URLSearchParams();
 
@@ -149,15 +149,12 @@ export function buildEquipmentQuery(
 // Server-Side Express API Request
 // =====================================
 
-export async function getApprovedEquipment(
-  filters: EquipmentFilters
-): Promise<{
+export async function getApprovedEquipment(filters: EquipmentFilters): Promise<{
   data: EquipmentResponse | null;
   error: string;
 }> {
   const apiURL =
-    process.env.EQUIPMENT_API_URL ||
-    process.env.NEXT_PUBLIC_API_URL;
+    process.env.EQUIPMENT_API_URL || process.env.NEXT_PUBLIC_API_URL;
 
   if (!apiURL) {
     return {
@@ -173,21 +170,16 @@ export async function getApprovedEquipment(
       `${apiURL.replace(/\/+$/, "")}/equipment?${query}`,
       {
         cache: "no-store",
-      }
+      },
     );
 
     const result = (await response.json()) as EquipmentResponse;
 
     if (!response.ok || !result.success) {
-      throw new Error(
-        result.error || "Unable to load equipment."
-      );
+      throw new Error(result.error || "Unable to load equipment.");
     }
 
-    if (
-      !Array.isArray(result.equipment) ||
-      !result.pagination
-    ) {
+    if (!Array.isArray(result.equipment) || !result.pagination) {
       throw new Error("Invalid equipment API response.");
     }
 

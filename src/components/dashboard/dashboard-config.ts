@@ -132,8 +132,9 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
       },
       {
         title: "Rental History",
-        description: "Review previous rentals.",
+        description: "Review completed and past rentals.",
         icon: ClipboardList,
+        href: "/dashboard/rental-history",
       },
       {
         title: "Saved Equipment",

@@ -71,7 +71,7 @@ export default function BecomeOwnerSection({
       <div className="pointer-events-none absolute -right-32 bottom-1/4 size-80 rounded-full bg-cta/5 blur-3xl" />
 
       {/* Main Container */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto container px-4 sm:px-6 lg:px-8">
 
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
 

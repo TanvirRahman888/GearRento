@@ -72,7 +72,7 @@ export function PlatformAnnouncement() {
       role="status"
       className="border-b border-primary/15 bg-primary/10 px-4 py-3 text-center"
     >
-      <div className="mx-auto flex max-w-7xl items-start justify-center gap-2">
+      <div className="mx-auto flex container items-start justify-center gap-2">
         <Megaphone
           size={17}
           className="mt-0.5 shrink-0 text-primary"

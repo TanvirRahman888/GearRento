@@ -71,7 +71,7 @@ export default function HeroSection() {
       aria-label="GearRento rental highlights"
       className="bg-background pb-14 pt-5 sm:pb-20 sm:pt-8"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ===================================
             Slider 1: Promotional Banners

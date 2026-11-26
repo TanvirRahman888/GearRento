@@ -239,7 +239,7 @@ export default function AboutPage() {
 
           {/* Hero Content */}
 
-          <div className="relative mx-auto flex min-h-115 max-w-7xl items-center px-4 py-16 sm:min-h-130 sm:px-6 lg:min-h-145 lg:px-8">
+          <div className="relative flex min-h-115 container mx-auto items-center px-4 py-16 sm:min-h-130 sm:px-6 lg:min-h-145 lg:px-8">
 
             <div className="max-w-2xl">
 
@@ -298,7 +298,7 @@ export default function AboutPage() {
         aria-label="GearRento marketplace highlights"
         className="border-b border-border bg-card"
       >
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-8 sm:grid-cols-3 sm:px-6 lg:px-8">
+        <div className="mx-auto grid container grid-cols-1 gap-6 px-4 py-8 sm:grid-cols-3 sm:px-6 lg:px-8">
 
           <div className="flex items-center gap-4">
             <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
@@ -356,7 +356,7 @@ export default function AboutPage() {
         id="our-mission"
         className="scroll-mt-24 py-16 sm:py-20 lg:py-24"
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
 
           <ImageContentSection
             badge="Our Story & Mission"
@@ -381,7 +381,7 @@ export default function AboutPage() {
 
       <section className="bg-muted/40 py-16 sm:py-20 lg:py-24">
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
 
           {/* Section Heading */}
 
@@ -426,7 +426,7 @@ export default function AboutPage() {
 
       <section className="py-16 sm:py-20 lg:py-24">
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
 
           <ImageContentSection
             badge="Building Confidence"
@@ -452,7 +452,7 @@ export default function AboutPage() {
 
       <section className="bg-muted/40 py-16 sm:py-20 lg:py-24">
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
 
           <ImageContentSection
             badge="Our Vision"
@@ -477,7 +477,7 @@ export default function AboutPage() {
 
       <section className="py-16 sm:py-20 lg:py-24">
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
 
           <div className="mx-auto mb-10 max-w-2xl text-center">
 
@@ -549,7 +549,7 @@ export default function AboutPage() {
 
       <section className="pb-16 sm:pb-20 lg:pb-24">
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className=" container mx-auto  px-4 sm:px-6 lg:px-8">
 
           <div className="relative overflow-hidden rounded-3xl bg-[#0B3341] px-6 py-12 text-white sm:px-10 sm:py-16 lg:px-16">
 

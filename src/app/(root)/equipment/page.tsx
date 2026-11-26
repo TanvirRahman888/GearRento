@@ -36,7 +36,7 @@ export default async function AllEquipmentPage({ searchParams }: PageProps) {
     <section className="min-h-svh bg-background">
       {/* Page Header */}
       <header className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-12">
+        <div className=" container mx-auto  px-4 py-10 sm:px-6 lg:py-12">
           <p className="mb-2 text-sm font-semibold text-primary">
             GearRento Marketplace
           </p>
@@ -52,7 +52,7 @@ export default async function AllEquipmentPage({ searchParams }: PageProps) {
       </header>
 
       {/* Filter and Results Layout */}
-      <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:py-9">
+      <div className=" container mx-auto px-4 py-7 sm:px-6 lg:py-9">
         <div className="grid items-start gap-6 lg:grid-cols-[250px_minmax(0,1fr)]">
           <EquipmentFiltersPanel
             key={buildEquipmentQuery(filters)}

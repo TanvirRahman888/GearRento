@@ -31,7 +31,7 @@ export default function FAQSection() {
 
       {/* Main Container */}
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-16">
 

@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import Link from "next/link";
@@ -56,8 +55,7 @@ const helpLinks = [
   },
   {
     title: "Manage Your Bookings",
-    description:
-      "Check rental bookings and review your rental activity.",
+    description: "Check rental bookings and review your rental activity.",
     icon: CircleHelp,
     href: "/dashboard/my-bookings",
     action: "My Bookings",
@@ -79,21 +77,18 @@ const helpLinks = [
 export default function ContactPage() {
   return (
     <main className="overflow-hidden bg-background text-foreground">
-
       {/* =====================================
           1. Intro / Hero
       ===================================== */}
 
       <section className="relative isolate overflow-hidden border-b border-border bg-linear-to-br from-secondary/70 via-background to-background py-14 sm:py-20 lg:py-24">
-
         {/* Decorations */}
 
         <div className="pointer-events-none absolute -left-28 -top-32 size-80 rounded-full bg-primary/10 blur-3xl" />
 
         <div className="pointer-events-none absolute -bottom-36 -right-24 size-80 rounded-full bg-cta/10 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
+        <div className="relative mx-auto container px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
 
           <nav
@@ -109,10 +104,7 @@ export default function ContactPage() {
 
             <ChevronRight className="size-4 text-muted-foreground" />
 
-            <span
-              aria-current="page"
-              className="font-semibold text-primary"
-            >
+            <span aria-current="page" className="font-semibold text-primary">
               Contact Us
             </span>
           </nav>
@@ -120,26 +112,20 @@ export default function ContactPage() {
           {/* Page Heading */}
 
           <div className="mx-auto max-w-3xl text-center">
-
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider text-secondary-foreground">
               <Sparkles className="size-4" />
               Get in Touch
             </span>
 
             <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-              We&apos;re Here to{" "}
-              <span className="text-primary">
-                Help You
-              </span>
+              We&apos;re Here to <span className="text-primary">Help You</span>
             </h1>
 
             <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-muted-foreground sm:text-lg">
-              Have a question about renting equipment,
-              managing bookings, or listing your own gear?
-              Get in touch with GearRento and let us know
+              Have a question about renting equipment, managing bookings, or
+              listing your own gear? Get in touch with GearRento and let us know
               how we can help.
             </p>
-
           </div>
         </div>
       </section>
@@ -149,17 +135,13 @@ export default function ContactPage() {
       ===================================== */}
 
       <section className="relative py-16 sm:py-20 lg:py-24">
-
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
+        <div className="mx-auto container px-4 sm:px-6 lg:px-8">
           <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
-
             {/* =================================
                 Left Side
             ================================= */}
 
             <div className="lg:col-span-5">
-
               {/* Section Badge */}
 
               <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
@@ -169,16 +151,12 @@ export default function ContactPage() {
 
               <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
                 Let&apos;s Start a{" "}
-                <span className="text-primary">
-                  Conversation.
-                </span>
+                <span className="text-primary">Conversation.</span>
               </h2>
 
               <p className="mt-5 max-w-lg text-sm leading-8 text-muted-foreground sm:text-base">
-                Whether you&apos;re a customer looking
-                for equipment or an owner interested in
-                sharing your gear, your questions matter
-                to us.
+                Whether you&apos;re a customer looking for equipment or an owner
+                interested in sharing your gear, your questions matter to us.
               </p>
 
               {/* ==============================
@@ -186,11 +164,9 @@ export default function ContactPage() {
               ============================== */}
 
               <div className="mt-9 space-y-4">
-
                 {/* Email */}
 
                 <div className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-md">
-
                   <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
                     <Mail className="size-6" />
                   </div>
@@ -201,8 +177,7 @@ export default function ContactPage() {
                     </h3>
 
                     <p className="mt-1 text-xs leading-6 text-muted-foreground">
-                      Send your rental or marketplace
-                      questions by email.
+                      Send your rental or marketplace questions by email.
                     </p>
 
                     <a
@@ -213,13 +188,11 @@ export default function ContactPage() {
                       <ArrowUpRight className="size-4 shrink-0" />
                     </a>
                   </div>
-
                 </div>
 
                 {/* Location */}
 
                 <div className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-md">
-
                   <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
                     <MapPin className="size-6" />
                   </div>
@@ -230,22 +203,19 @@ export default function ContactPage() {
                     </h3>
 
                     <p className="mt-1 text-xs leading-6 text-muted-foreground">
-                      Browse rental listings across
-                      Bangladesh&apos;s eight divisions,
-                      based on equipment availability.
+                      Browse rental listings across Bangladesh&apos;s eight
+                      divisions, based on equipment availability.
                     </p>
 
                     <p className="mt-2 text-sm font-semibold text-primary">
                       Bangladesh
                     </p>
                   </div>
-
                 </div>
 
                 {/* Support */}
 
                 <div className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:border-primary/40 hover:shadow-md">
-
                   <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
                     <Headphones className="size-6" />
                   </div>
@@ -256,15 +226,11 @@ export default function ContactPage() {
                     </h3>
 
                     <p className="mt-1 text-xs leading-6 text-muted-foreground">
-                      Need information about equipment
-                      details, rental dates, or bookings?
-                      Include the relevant details in
-                      your message.
+                      Need information about equipment details, rental dates, or
+                      bookings? Include the relevant details in your message.
                     </p>
                   </div>
-
                 </div>
-
               </div>
 
               {/* ==============================
@@ -272,9 +238,7 @@ export default function ContactPage() {
               ============================== */}
 
               <div className="mt-6 rounded-2xl border border-primary/15 bg-secondary/60 p-5">
-
                 <div className="flex items-start gap-3">
-
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-card text-primary">
                     <ShieldCheck className="size-5" />
                   </div>
@@ -285,16 +249,13 @@ export default function ContactPage() {
                     </h3>
 
                     <p className="mt-2 text-xs leading-6 text-muted-foreground">
-                      GearRento is designed to connect
-                      equipment owners and renters through
-                      clear listings, rental information,
-                      and convenient booking features.
+                      GearRento is designed to connect equipment owners and
+                      renters through clear listings, rental information, and
+                      convenient booking features.
                     </p>
                   </div>
-
                 </div>
               </div>
-
             </div>
 
             {/* =================================
@@ -302,9 +263,7 @@ export default function ContactPage() {
             ================================= */}
 
             <div className="lg:col-span-7">
-
               <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 shadow-xl shadow-black/5 dark:shadow-black/20 sm:p-8 lg:p-10">
-
                 {/* Decoration */}
 
                 <div className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-primary/5 blur-3xl" />
@@ -312,7 +271,6 @@ export default function ContactPage() {
                 {/* Form Header */}
 
                 <div className="relative mb-8">
-
                   <div className="mb-5 flex size-13 items-center justify-center rounded-2xl bg-secondary text-primary">
                     <MessageCircle className="size-6" />
                   </div>
@@ -322,25 +280,19 @@ export default function ContactPage() {
                   </h2>
 
                   <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    Fill out the form below to prepare
-                    your inquiry. Your email application
-                    will open with the message ready
-                    for you to send.
+                    Fill out the form below to prepare your inquiry. Your email
+                    application will open with the message ready for you to
+                    send.
                   </p>
-
                 </div>
 
                 {/* Contact Form */}
 
                 <div className="relative">
-                  <ContactForm
-                    contactEmail={CONTACT_EMAIL}
-                  />
+                  <ContactForm contactEmail={CONTACT_EMAIL} />
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -350,37 +302,28 @@ export default function ContactPage() {
       ===================================== */}
 
       <section className="border-t border-border bg-muted/35 py-16 sm:py-20">
-
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
+        <div className="mx-auto container px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
 
           <div className="mx-auto mb-10 max-w-2xl text-center">
-
             <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider text-secondary-foreground">
               <BadgeHelp className="size-4" />
               Quick Help
             </span>
 
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Find What You{" "}
-              <span className="text-primary">
-                Need
-              </span>
+              Find What You <span className="text-primary">Need</span>
             </h2>
 
             <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
-              Explore helpful pages before sending an
-              inquiry. You might find exactly what
-              you&apos;re looking for.
+              Explore helpful pages before sending an inquiry. You might find
+              exactly what you&apos;re looking for.
             </p>
-
           </div>
 
           {/* Quick Help Cards */}
 
           <div className="grid gap-5 md:grid-cols-3">
-
             {helpLinks.map((item) => {
               const Icon = item.icon;
 
@@ -390,7 +333,6 @@ export default function ContactPage() {
                   href={item.href}
                   className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"
                 >
-
                   <div className="flex size-13 items-center justify-center rounded-2xl bg-secondary text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                     <Icon className="size-6" />
                   </div>
@@ -408,13 +350,10 @@ export default function ContactPage() {
 
                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                   </div>
-
                 </Link>
               );
             })}
-
           </div>
-
         </div>
       </section>
 
@@ -423,11 +362,8 @@ export default function ContactPage() {
       ===================================== */}
 
       <section className="bg-background py-16 sm:py-20">
-
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
+        <div className="mx-auto container px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-3xl bg-[#0B3341] px-6 py-10 text-white sm:px-10 sm:py-12 lg:px-14">
-
             {/* Decoration */}
 
             <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full border-35px border-white/5" />
@@ -435,9 +371,7 @@ export default function ContactPage() {
             <div className="pointer-events-none absolute -bottom-32 -left-24 size-64 rounded-full bg-[#22D3EE]/10 blur-3xl" />
 
             <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-
               <div className="max-w-2xl">
-
                 <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FFB547]">
                   <CheckCircle2 className="size-4" />
                   Start Your Rental Journey
@@ -448,11 +382,9 @@ export default function ContactPage() {
                 </h2>
 
                 <p className="mt-3 text-sm leading-7 text-slate-200">
-                  Explore equipment for creative projects,
-                  construction, outdoor adventures, events,
-                  and more on GearRento.
+                  Explore equipment for creative projects, construction, outdoor
+                  adventures, events, and more on GearRento.
                 </p>
-
               </div>
 
               <Link
@@ -460,16 +392,12 @@ export default function ContactPage() {
                 className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#FFB547] px-6 py-3.5 text-sm font-bold text-[#17212B] transition hover:-translate-y-0.5 hover:brightness-95"
               >
                 Browse Equipment
-
                 <ArrowRight className="size-4" />
               </Link>
-
             </div>
           </div>
-
         </div>
       </section>
-
     </main>
   );
 }

@@ -36,7 +36,7 @@ export function EquipmentDetails({
 
   return (
     <section className="min-h-svh bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
+      <div className=" container mx-auto px-4 py-8 sm:px-6 lg:py-10">
 
         {/* Back Navigation */}
         <Link

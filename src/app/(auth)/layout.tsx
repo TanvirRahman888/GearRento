@@ -14,7 +14,7 @@ export default function AuthLayout({
         sm:px-6 lg:px-8
       "
     >
-      <div className="w-full max-w-6xl">
+      <div className="w-full container mx-auto">
         {children}
       </div>
     </section>

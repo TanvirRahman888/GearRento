@@ -1,12 +1,20 @@
-import type { ReactNode } from "react";
-import { requireRole } from "@/lib/require-role";
+
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
 export default async function DashboardLayout({
   children,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
 }) {
-  await requireRole(["admin", "owner", "customer"]);
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    redirect("/login?next=/dashboard");
+  }
 
   return <>{children}</>;
 }

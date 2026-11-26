@@ -43,12 +43,7 @@ function ProfileAvatar({ name, image, size = "small" }: ProfileAvatarProps) {
 
   return (
     <div
-      className={`
-        relative flex shrink-0
-        items-center justify-center
-        overflow-hidden rounded-full
-        bg-primary text-primary-foreground
-        ${isLarge ? "size-12" : "size-9"}
+      className={` relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary text-primary-foreground ${isLarge ? "size-12" : "size-9"}
       `}
     >
       {image ? (
@@ -279,30 +274,11 @@ export function Navbar() {
       ===================================== */}
 
       <header
-        className={`
-          fixed inset-x-3 top-2.5 z-50
-          mx-auto max-w-7xl
-          transform-gpu
-          transition-transform duration-500 ease-out
-          motion-reduce:transition-none
-          sm:inset-x-6 sm:top-3
-          ${showNavbar ? "translate-y-0" : "translate-y-[-160%]"}
-        `}
+        className={`container mx-auto fixed inset-x-0 top-2.5 z-50 transform-gpu transition-transform duration-500 ease-out motion-reduce:transition-none sm:top-3 ${showNavbar ? "translate-y-0" : "translate-y-[-160%]"}
+  `}
       >
         {/* Glass Navbar Container */}
-        <div
-          className="
-            rounded-2xl
-            border border-white/35
-            bg-white/45
-            shadow-[0_8px_30px_rgba(9,24,33,0.08)]
-            backdrop-blur-2xl
-            backdrop-saturate-150
-            dark:border-white/10
-            dark:bg-[#102733]/45
-            dark:shadow-[0_8px_30px_rgba(0,0,0,0.2)]
-          "
-        >
+        <div className=" rounded-2xl border border-white/35 bg-white/45 shadow-[0_8px_30px_rgba(9,24,33,0.08)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10 dark:bg-[#102733]/45 dark:shadow-[0_8px_30px_rgba(0,0,0,0.2)] ">
           {/* =====================================
               MAIN NAVBAR ROW
           ===================================== */}
@@ -351,7 +327,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={`
-                      text-sm font-medium
+                      text-sm font-semibold
                       transition-colors duration-200
                       hover:text-primary
                       ${isActive ? "text-primary" : "text-foreground/80"}

@@ -143,7 +143,7 @@ export default function Footer() {
           Main Footer Content
       ==================================== */}
 
-      <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 sm:pt-16 lg:px-8 lg:pt-20">
+      <div className="relative container mx-auto px-4 pt-14 pb-10 sm:px-6 sm:pt-16 lg:px-8 lg:pt-20">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* ====================================
               Brand Column

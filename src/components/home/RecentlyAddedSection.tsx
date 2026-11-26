@@ -28,7 +28,7 @@ export default async function RecentlyAddedSection() {
 
       {/* Container */}
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Badge */}
 

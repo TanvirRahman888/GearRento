@@ -1,8 +1,11 @@
+
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { FavoriteButton } from "@/components/equipment/favorite-button";
 
 import {
   ImageIcon,
@@ -43,11 +46,9 @@ type EquipmentCardProps = {
 function EquipmentImage({
   imageUrl,
   name,
-  isFeatured = false,
 }: {
   imageUrl?: string;
   name: string;
-  isFeatured?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -64,18 +65,10 @@ function EquipmentImage({
           onError={() => setFailed(true)}
         />
       ) : (
-        <ImageIcon size={42} className="text-muted-foreground/40" />
-      )}
-
-      {/* ==============================
-          FEATURED EQUIPMENT BADGE
-      ============================== */}
-
-      {isFeatured && (
-        <span className="pointer-events-none absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-xs font-bold text-amber-950 shadow-md">
-          <Star size={14} fill="currentColor" />
-          Featured
-        </span>
+        <ImageIcon
+          size={42}
+          className="text-muted-foreground/40"
+        />
       )}
     </div>
   );
@@ -85,7 +78,9 @@ function EquipmentImage({
 // Equipment Card
 // ======================================
 
-export function EquipmentCard({ equipment }: EquipmentCardProps) {
+export function EquipmentCard({
+  equipment,
+}: EquipmentCardProps) {
   const {
     _id,
     name,
@@ -98,21 +93,36 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
     isFeatured,
   } = equipment;
 
-  // Equipment details URL
+  // ====================================
+  // Equipment Details URL
+  // ====================================
+
   const detailsUrl = `/equipment/${_id}`;
 
-  // Format condition label
-  const conditionLabel = condition
-    .replaceAll("-", " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  // ====================================
+  // Format Equipment Condition
+  // ====================================
 
-  // Format rental divisions
+  const conditionLabel = (condition || "unknown")
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (letter) =>
+      letter.toUpperCase()
+    );
+
+  // ====================================
+  // Format Available Divisions
+  // ====================================
+
   const divisionLabel =
     divisions.length === 8
       ? "All Bangladesh Divisions"
-      : divisions.length <= 2
-        ? divisions.join(", ")
-        : `${divisions.slice(0, 2).join(", ")} +${divisions.length - 2} more`;
+      : divisions.length === 0
+        ? "Location not specified"
+        : divisions.length <= 2
+          ? divisions.join(", ")
+          : `${divisions
+              .slice(0, 2)
+              .join(", ")} +${divisions.length - 2} more`;
 
   return (
     <article
@@ -127,28 +137,72 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
       "
     >
       {/* ==================================
-          CLICKABLE COVER IMAGE
+          EQUIPMENT IMAGE SECTION
       ================================== */}
 
-      <Link
-        href={detailsUrl}
-        aria-label={`View details for ${name}`}
-        className="block overflow-hidden"
-      >
-        <EquipmentImage
-          key={imageUrls?.[0] ?? ""}
-          imageUrl={imageUrls?.[0]}
-          name={name}
-          isFeatured={isFeatured}
-        />
-      </Link>
+      <div className="relative">
+        {/* Clickable Equipment Image */}
+
+        <Link
+          href={detailsUrl}
+          aria-label={`View details for ${name}`}
+          className="block overflow-hidden"
+        >
+          <EquipmentImage
+            key={imageUrls?.[0] ?? ""}
+            imageUrl={imageUrls?.[0]}
+            name={name}
+          />
+        </Link>
+
+        {/* ==================================
+            FEATURED EQUIPMENT BADGE
+        ================================== */}
+
+        {isFeatured && (
+          <span
+            className="
+              pointer-events-none
+              absolute left-3 top-3 z-10
+              inline-flex items-center gap-1.5
+              rounded-full bg-amber-400
+              px-3 py-1.5
+              text-xs font-bold text-amber-950
+              shadow-md
+            "
+          >
+            <Star
+              size={14}
+              fill="currentColor"
+            />
+            Featured
+          </span>
+        )}
+
+        {/* ==================================
+            ADD TO FAVORITES BUTTON
+        ================================== */}
+
+        <div
+          className="
+            absolute right-3 top-3 z-20
+          "
+        >
+          <FavoriteButton
+            equipmentId={_id}
+          />
+        </div>
+      </div>
 
       {/* ==================================
           CARD CONTENT
       ================================== */}
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-        {/* Condition and Availability */}
+        {/* ==================================
+            CONDITION AND AVAILABILITY
+        ================================== */}
+
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <span
             className="
@@ -174,7 +228,7 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
         </div>
 
         {/* ==================================
-            CLICKABLE EQUIPMENT NAME
+            EQUIPMENT NAME
         ================================== */}
 
         <h3 className="line-clamp-2 text-base font-bold text-foreground">
@@ -191,24 +245,29 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
         </h3>
 
         {/* ==================================
-            CATEGORIES
+            EQUIPMENT CATEGORIES
         ================================== */}
 
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          <Tag size={14} className="shrink-0 text-primary" />
+          <Tag
+            size={14}
+            className="shrink-0 text-primary"
+          />
 
-          {categories.slice(0, 2).map((category) => (
-            <span
-              key={category}
-              className="
-                rounded-md bg-muted
-                px-2 py-1 text-xs
-                text-foreground/80
-              "
-            >
-              {category}
-            </span>
-          ))}
+          {categories
+            .slice(0, 2)
+            .map((category) => (
+              <span
+                key={category}
+                className="
+                  rounded-md bg-muted
+                  px-2 py-1
+                  text-xs text-foreground/80
+                "
+              >
+                {category}
+              </span>
+            ))}
 
           {categories.length > 2 && (
             <span className="text-xs text-muted-foreground">
@@ -222,9 +281,14 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
         ================================== */}
 
         <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-          <MapPin size={15} className="shrink-0 text-primary" />
+          <MapPin
+            size={15}
+            className="shrink-0 text-primary"
+          />
 
-          <span className="line-clamp-2">{divisionLabel}</span>
+          <span className="line-clamp-2">
+            {divisionLabel}
+          </span>
         </div>
 
         {/* ==================================
@@ -234,10 +298,16 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
         <div className="mt-auto pt-4">
           <div className="flex items-end justify-between gap-3 border-t border-border pt-4">
             <div>
-              <p className="text-xs text-muted-foreground">Rental Price</p>
+              <p className="text-xs text-muted-foreground">
+                Rental Price
+              </p>
 
               <p className="mt-1 text-xl font-bold text-primary">
-                ৳{dailyPrice.toLocaleString("en-BD")}
+                ৳
+                {dailyPrice.toLocaleString(
+                  "en-BD"
+                )}
+
                 <span className="ml-1 text-xs font-normal text-muted-foreground">
                   /day
                 </span>
@@ -265,9 +335,13 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
               transition-all duration-200
               hover:bg-cta/90
               hover:shadow-md
+              focus-visible:outline-2
+              focus-visible:outline-offset-2
+              focus-visible:outline-ring
             "
           >
             View Details
+
             <ArrowUpRight size={17} />
           </Link>
         </div>

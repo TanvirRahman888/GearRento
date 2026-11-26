@@ -16,7 +16,7 @@ type DashboardShellProps = {
   role: DashboardRole;
   title: string;
   description: string;
-  activePage: "overview" | "profile"| "add-equipment"| "my-equipment"| "equipment-approvals" | "my-bookings"  | "rental-requests" | "all-rentals" | "analytics" | "manage-users" | "all-equipment" | "platform-settings"| "availability" | "rental-history"
+  activePage: "overview" | "profile"| "add-equipment"| "my-equipment"| "equipment-approvals" | "my-bookings"  | "rental-requests" | "all-rentals" | "analytics" | "manage-users" | "all-equipment" | "platform-settings"| "availability" | "rental-history" | "favorites"
   children: ReactNode;
 };
 

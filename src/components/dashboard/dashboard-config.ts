@@ -140,6 +140,7 @@ export const dashboardConfig: Record<DashboardRole, DashboardConfig> = {
         title: "Saved Equipment",
         description: "Access your saved equipment.",
         icon: Heart,
+        href: "/dashboard/favorites",
       },
       {
         title: "My Payments",

@@ -1,33 +1,72 @@
-
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
+// ======================================
+// Environment Configuration
+// ======================================
 
-if (!uri) {
-  throw new Error(
-    "Missing MONGODB_URI environment variable."
-  );
+const MONGODB_URI = process.env.MONGODB_URI;
+const DB_NAME = process.env.DB_NAME || "GearRento";
+
+if (!MONGODB_URI) {
+  throw new Error("Missing MONGODB_URI environment variable.");
 }
 
-const dbName = process.env.DB_NAME || "GearRento";
+// ======================================
+// MongoDB Connection Options
+// ======================================
 
-// Cache MongoClient across Next.js module reloads.
+const options = {
+  maxPoolSize: 10,
+  minPoolSize: 0,
+  serverSelectionTimeoutMS: 10000,
+  connectTimeoutMS: 10000,
+};
+
+// ======================================
+// Development Client Cache
+// ======================================
+
 const globalForMongo = globalThis as typeof globalThis & {
   gearrentoMongoClient?: MongoClient;
 };
 
+// ======================================
+// MongoDB Client
+// ======================================
+
+// Reuse across development hot reloads.
+// Production serverless instances reuse
+// their module-scoped client.
+
 const client =
-  globalForMongo.gearrentoMongoClient ??
-  new MongoClient(uri, {
-    maxPoolSize: 10,
-    minPoolSize: 0,
-    maxIdleTimeMS: 60000,
-    serverSelectionTimeoutMS: 10000,
-    connectTimeoutMS: 10000,
-  });
+  (process.env.NODE_ENV === "development"
+    ? globalForMongo.gearrentoMongoClient
+    : undefined) ?? new MongoClient(MONGODB_URI, options);
 
-globalForMongo.gearrentoMongoClient = client;
+if (process.env.NODE_ENV === "development") {
+  globalForMongo.gearrentoMongoClient = client;
+}
 
-const db = client.db(dbName);
+// ======================================
+// MongoDB Database
+// ======================================
+
+const db = client.db(DB_NAME);
+
+// ======================================
+// Explicit Connection Helper
+// ======================================
+
+export async function ensureMongoConnected() {
+  try {
+    await client.connect();
+  } catch (error) {
+    console.error("[GearRento] MongoDB connection failed:", error);
+
+    throw error;
+  }
+}
+
+
 
 export { client, db };

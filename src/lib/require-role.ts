@@ -6,12 +6,14 @@ import { redirect, notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 
 export type UserRole = "admin" | "owner" | "customer";
+import { ensureMongoConnected } from "@/lib/mongodb";
 
 export async function requireRole(
   allowedRoles: UserRole[],
   returnTo = "/dashboard",
 ) {
   // Verify the actual Better Auth session
+  await ensureMongoConnected();
   const session = await auth.api.getSession({
     headers: await headers(),
   });

@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 
 import {
@@ -14,6 +13,7 @@ import type { PublicEquipmentDetails } from "@/lib/get-equipment-details";
 
 import { EquipmentGallery } from "./equipment-gallery";
 import { BookingRequestForm } from "./booking-request-form";
+import { FavoriteButton } from "./favorite-button";
 
 type Props = {
   equipment: PublicEquipmentDetails;
@@ -21,11 +21,7 @@ type Props = {
   isLoggedIn: boolean;
 };
 
-export function EquipmentDetails({
-  equipment,
-  viewerRole,
-  isLoggedIn,
-}: Props) {
+export function EquipmentDetails({ equipment, viewerRole, isLoggedIn }: Props) {
   const conditionLabel = equipment.condition
     .replaceAll("-", " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -37,7 +33,6 @@ export function EquipmentDetails({
   return (
     <section className="min-h-svh bg-background">
       <div className=" container mx-auto px-4 py-8 sm:px-6 lg:py-10">
-
         {/* Back Navigation */}
         <Link
           href="/equipment"
@@ -49,13 +44,11 @@ export function EquipmentDetails({
 
         {/* Main Two-Column Layout */}
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(360px,420px)]">
-
           {/* =============================
               LEFT: EQUIPMENT DETAILS
           ============================= */}
 
           <div className="min-w-0 space-y-7">
-
             {/* Image Gallery */}
             <EquipmentGallery
               images={equipment.imageUrls}
@@ -64,7 +57,6 @@ export function EquipmentDetails({
 
             {/* Equipment Information */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-7">
-
               {/* Status */}
               <div className="mb-4 flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground">
@@ -77,18 +69,34 @@ export function EquipmentDetails({
                 </span>
               </div>
 
-              {/* Equipment Name */}
-              <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                {equipment.name}
-              </h1>
+              {/* ======================================
+    EQUIPMENT TITLE AND FAVORITE BUTTON
+====================================== */}
+
+              <div className="flex items-start justify-between gap-4">
+                {/* Equipment Name */}
+
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+                    {equipment.name}
+                  </h1>
+
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {equipment.categories?.join(", ")}
+                  </p>
+                </div>
+
+                {/* Add to Favorites */}
+
+                <div className="shrink-0">
+                  <FavoriteButton equipmentId={equipment._id} />
+                </div>
+              </div>
 
               {/* Categories */}
               <div className="mt-5">
                 <p className="mb-2 flex items-center gap-2 text-sm font-semibold">
-                  <Tag
-                    size={16}
-                    className="text-primary"
-                  />
+                  <Tag size={16} className="text-primary" />
                   Categories
                 </p>
 
@@ -107,10 +115,7 @@ export function EquipmentDetails({
               {/* Equipment Rental Divisions */}
               <div className="mt-5">
                 <p className="mb-2 flex items-center gap-2 text-sm font-semibold">
-                  <MapPin
-                    size={16}
-                    className="text-primary"
-                  />
+                  <MapPin size={16} className="text-primary" />
                   Rental Locations
                 </p>
 
@@ -140,7 +145,6 @@ export function EquipmentDetails({
 
                 <p className="mt-1 text-3xl font-bold text-primary">
                   ৳{equipment.dailyPrice.toLocaleString("en-BD")}
-
                   <span className="ml-1 text-sm font-normal text-muted-foreground">
                     /day
                   </span>
@@ -150,10 +154,7 @@ export function EquipmentDetails({
               {/* Available Quantity */}
               <div className="mt-5 flex items-center justify-between gap-3 border-b border-border pb-5">
                 <div className="flex items-center gap-2 text-sm">
-                  <Package
-                    size={18}
-                    className="text-primary"
-                  />
+                  <Package size={18} className="text-primary" />
                   Available Quantity
                 </div>
 
@@ -176,9 +177,7 @@ export function EquipmentDetails({
 
                 <span>
                   Listed on{" "}
-                  {new Date(
-                    equipment.createdAt
-                  ).toLocaleDateString("en-BD", {
+                  {new Date(equipment.createdAt).toLocaleDateString("en-BD", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -192,9 +191,7 @@ export function EquipmentDetails({
             ============================= */}
 
             <div className="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-7">
-              <h2 className="mb-5 text-xl font-bold">
-                Equipment Description
-              </h2>
+              <h2 className="mb-5 text-xl font-bold">Equipment Description</h2>
 
               {equipment.descriptionHtml ? (
                 <div
